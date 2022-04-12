@@ -6,3 +6,6 @@ function GuessForm(props) {
  )
 
 }
+
+
+export default GuessForm;

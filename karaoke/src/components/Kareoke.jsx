@@ -12,6 +12,7 @@ const Kareoke = () => {
   const [guess, setGuess] = useState('')
   const [songState, setSongState] = useState(songs[0])
   const [result, setResult] = useState('')
+  const [toggle, setToggle] = useState(false);
   
   
 
@@ -19,8 +20,7 @@ const Kareoke = () => {
       //reset the guess, answerbox, and show result when switching songs
       setResult('');
       setGuess('');
-      document.getElementById("answerbox").style.display = "none";
-      document.getElementById("customSwitch1").checked = false;
+      setToggle(false);
     
       //assign the target value from the drop down as our selected song
       const selectedSong = event.target.value;
@@ -29,28 +29,10 @@ const Kareoke = () => {
       //if it is found, set the song state
       for (let song in songs) {
         if (songs[song].songTitle == selectedSong) {
-          setSongState({
-            ...songState,
-            songTitle: songs[song].songTitle,
-            artist: songs[song].artist,
-            firstLine: songs[song].firstLine,
-            nextLine: songs[song].nextLine,
-            guessUrl: songs[song].guessUrl,
-            answerUrl: songs[song].answerUrl
-          });
+          setSongState(songs[songs[song].id])
         }
       }
     }
-
-  const showLyrics = (event) => {
-    let answerbox = document.getElementById("answerbox")
-    //if the display is currently not showing and answerbox is true, then display the answer
-    if (answerbox.style.display === "none") {
-      answerbox.style.display = "block";
-    } else {
-      answerbox.style.display = "none";
-    }
-  };
   
   const checkGuess = (event) => {
     event.preventDefault()
@@ -63,6 +45,10 @@ const Kareoke = () => {
     }
   };
 
+  const toggleDisplay = toggle ? <Video 
+    song={songState} 
+    lyric={songState.nextLine}
+    /> : null
 
 
   return (
@@ -114,11 +100,7 @@ const Kareoke = () => {
             type="checkbox"
             className="custom-control-input"
             id="customSwitch1"
-            onChange={() =>
-              document.getElementById("customSwitch1").checked
-                ? (document.getElementById("answerbox").style.display = "block")
-                : (document.getElementById("answerbox").style.display = "none")
-            }
+            onChange={() => setToggle(!toggle)}
           />
           <label className="custom-control-label" htmlFor="customSwitch1">
             Show me the lyrics!
@@ -126,27 +108,12 @@ const Kareoke = () => {
         </section>
       </section>
 
-      {/* Music Video answer */}
 
-      <section id="answerbox" className="card w-100 text-center mt-5 lyric-card">
-        <ReactPlayer
-          className="card-img-top w-100"
-          id="video"
-          url={songState.answerUrl}
-        />
-        <p className="card-text my-3 px-3">
-          {" "}
-          ... <strong>{songState.nextLine}</strong> 🎵🎶
-        </p>
-      </section>
-    </>
-    
-    
-    
-    
+      {/* Music Video Answer */}
+      {toggleDisplay}
+
+    </>  
   );
-  
-  
 }
 
 export default Kareoke;
