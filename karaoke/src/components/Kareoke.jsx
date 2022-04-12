@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Video from "./Video"
 import songs from "./Songs.jsx";
 import './Kareoke.css'
 
@@ -8,21 +9,16 @@ import ReactPlayer from "react-player";
 const Kareoke = () => {
   //first thing in array is always current state
   //second thing is function that allows you to update current state
-  const [songState, setSongState] = useState({
-    songTitle: "All I Want for Christmas Is You",
-    artist: "Mariah Carey",
-    firstLine: "I don't need to hang my stocking there upon the fireplace",
-    nextLine: "Santa Claus won't make me happy with a toy on Christmas Day",
-    guessUrl: "https://youtu.be/aAkMkVFwAoo?start=73&end=80",
-    answerUrl: "https://youtu.be/aAkMkVFwAoo?start=80&end=86"
-  });
+  const [guess, setGuess] = useState('')
+  const [songState, setSongState] = useState(songs[0])
+  const [result, setResult] = useState('')
   
-  // const [inputState, setInputState]
+  
 
   const handleChange = (event) => {
       //reset the guess, answerbox, and show result when switching songs
-      document.getElementById("result").innerHTML = ' ';
-      document.getElementById("guess").value = " ";
+      setResult('');
+      setGuess('');
       document.getElementById("answerbox").style.display = "none";
       document.getElementById("customSwitch1").checked = false;
     
@@ -57,18 +53,13 @@ const Kareoke = () => {
   };
   
   const checkGuess = (event) => {
-    let guessbox = document.querySelector("#guess");
-    let video = document.querySelector("#video");
-    //get the value entered in the guessbox
-    const guess = guessbox.value;
+    event.preventDefault()
     
-    let result = document.getElementById("result");
-    //if the guess matches the stored value for the next line in the current song state, show correct!
+    //if the guess state matches the stored value for the next line in the current song state, set result case to correct!
     if (guess.toLowerCase() === songState.nextLine.toLowerCase()) {
-      result.innerHTML = "Correct!";
+      setResult("Correct!");
     } else {
-      result.innerHTML = "Incorrect ";
-      video.url = songState.answerUrl;
+      setResult("Incorrect");
     }
   };
 
@@ -88,17 +79,14 @@ const Kareoke = () => {
       </select>
 
       {/* Music Video hint */}
-      <section className="card w-100 text-center mt-4 lyric-card">
-        <ReactPlayer className="card-img-top w-100" url={songState.guessUrl} />
-        <p className="card-title mt-2 px-3">
-          {songState.songTitle} by {songState.artist}
-        </p>
-        <p className="card-text mb-3 px-3">
-          🎵🎶 <strong>{songState.firstLine}</strong> ...{" "}
-        </p>
-      </section>
+      <Video 
+      song={songState} 
+      lyric={songState.firstLine}
+      />
+
 
       {/* Guessing box */}
+      <form onSubmit={checkGuess}>
       <section className="form-group mt-3">
         <label>Guess the next lyric!</label>
         <input
@@ -106,18 +94,20 @@ const Kareoke = () => {
           name="guess"
           type="text"
           className="form-control"
+          value={guess}
+          onChange={(e) => setGuess(e.target.value)}
         ></input>
       </section>
       <button
         type="submit"
         className="btn btn-danger active"
-        onClick={checkGuess}
       >
         Guess!
       </button>
+      </form>
 
       <section id="results">
-        <p id="result"></p>
+        <p id="result">{result}</p>
 
         <section className="custom-control custom-switch">
           <input
