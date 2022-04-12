@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Video from "./Video"
+import GuessForm from "./GuessForm"
 import songs from "./Songs.jsx";
 import './Kareoke.css'
 
-//React Player library allows embedding of YouTube videos
-import ReactPlayer from "react-player";
   
 const Kareoke = () => {
   //first thing in array is always current state
@@ -13,7 +12,7 @@ const Kareoke = () => {
   const [songState, setSongState] = useState(songs[0])
   const [result, setResult] = useState('')
   const [toggle, setToggle] = useState(false);
-  
+  const [checked, setChecked] = useState(false);
   
 
   const handleChange = (event) => {
@@ -21,6 +20,7 @@ const Kareoke = () => {
       setResult('');
       setGuess('');
       setToggle(false);
+      setChecked(false);
     
       //assign the target value from the drop down as our selected song
       const selectedSong = event.target.value;
@@ -45,9 +45,10 @@ const Kareoke = () => {
     }
   };
 
+  //create a display that only shows if the box is checked
   const toggleDisplay = toggle ? <Video 
     song={songState} 
-    lyric={songState.nextLine}
+    firstLine="false"
     /> : null
 
 
@@ -67,31 +68,18 @@ const Kareoke = () => {
       {/* Music Video hint */}
       <Video 
       song={songState} 
-      lyric={songState.firstLine}
+      firstLine="true"
+      />
+
+      {/* Guessing box */}
+      <GuessForm 
+      checkGuess={checkGuess} 
+      guess={guess} 
+      setGuess={setGuess}
       />
 
 
-      {/* Guessing box */}
-      <form onSubmit={checkGuess}>
-      <section className="form-group mt-3">
-        <label>Guess the next lyric!</label>
-        <input
-          id="guess"
-          name="guess"
-          type="text"
-          className="form-control"
-          value={guess}
-          onChange={(e) => setGuess(e.target.value)}
-        ></input>
-      </section>
-      <button
-        type="submit"
-        className="btn btn-danger active"
-      >
-        Guess!
-      </button>
-      </form>
-
+      {/* Results */}
       <section id="results">
         <p id="result">{result}</p>
 
@@ -100,7 +88,13 @@ const Kareoke = () => {
             type="checkbox"
             className="custom-control-input"
             id="customSwitch1"
-            onChange={() => setToggle(!toggle)}
+            checked = {checked}
+            onChange={(e) => {
+              setChecked(e.target.checked);
+              setToggle(!toggle);
+            }
+            }
+
           />
           <label className="custom-control-label" htmlFor="customSwitch1">
             Show me the lyrics!
