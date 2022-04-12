@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Video from "./Video"
 import GuessForm from "./GuessForm"
 import SongSelector from "./SongSelector";
+import Results from "./Results";
 import songs from "./Songs.jsx";
 import './Kareoke.css'
 
@@ -77,28 +78,13 @@ const Kareoke = () => {
 
 
       {/* Results */}
-      <section id="results">
-        <p id="result">{result}</p>
-
-        <section className="custom-control custom-switch">
-          <input
-            type="checkbox"
-            className="custom-control-input"
-            id="customSwitch1"
-            checked = {checked}
-            onChange={(e) => {
-              setChecked(e.target.checked);
-              setToggle(!toggle);
-            }
-            }
-
-          />
-          <label className="custom-control-label" htmlFor="customSwitch1">
-            Show me the lyrics!
-          </label>
-        </section>
-      </section>
-
+      <Results
+      result={result}
+      checked={checked}
+      toggle={toggle}
+      setChecked={setChecked}
+      setToggle={setToggle}
+      />
 
       {/* Music Video Answer */}
       {toggleDisplay}

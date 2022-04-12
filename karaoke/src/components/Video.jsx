@@ -23,10 +23,7 @@ if (firstLine==="true") {
 } else {
   return (
       <section className="card w-100 text-center mt-4 lyric-card">
-      <ReactPlayer className="card-img-top w-100" url={song.guessUrl} />
-      {/* <p className="card-title mt-2 px-3">
-        {song.songTitle} by {song.artist}
-      </p> */}
+      <ReactPlayer className="card-img-top w-100" url={song.answerUrl} />
       <p className="card-text mb-3 px-3">
         <strong>{song.nextLine}</strong>🎵🎶 
       </p>
