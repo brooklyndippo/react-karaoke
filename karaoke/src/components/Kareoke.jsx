@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Video from "./Video"
 import GuessForm from "./GuessForm"
+import SongSelector from "./SongSelector";
 import songs from "./Songs.jsx";
 import './Kareoke.css'
 
@@ -57,13 +58,9 @@ const Kareoke = () => {
       < h1>Holiday Kareoke</h1>
 
       {/* Kareoke selector */}
-      <select className="form-control mt-4" onChange={handleChange}>
-        {songs.map(song => (
-          <option key={song.id} value={song.songTitle}>
-            {song.songTitle}
-          </option>
-        ))}
-      </select>
+      <SongSelector 
+      handleChange={handleChange}
+      />
 
       {/* Music Video hint */}
       <Video 
