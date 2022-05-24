@@ -25,13 +25,14 @@ const Kareoke = () => {
       setChecked(false);
     
       //assign the target value from the drop down as our selected song
-      const selectedSong = event.target.value;
+      const selectedSongId = event.target.value;
+      console.log(selectedSongId)
     
       //loop through our song list and find a song title that matches our selection
       //if it is found, set the song state
       for (let song in songs) {
-        if (songs[song].songTitle == selectedSong) {
-          setSongState(songs[songs[song].id])
+        if (songs[song].id == selectedSongId) {
+          setSongState(songs[selectedSongId])
         }
       }
     }
@@ -103,9 +104,9 @@ export default Kareoke;
 // - integrating YouTube videos
 // - creating a toggle to show the answer
 // - designing a cohesive theme around the task
+// - form component with objects as props or states
 
 //Next steps I could take:
 // - improve accuracy by stripping punctuation for answer check
 // - add a point system and score tracking
 // - create a backend song generator that could scrape songs & randomly select a first line & next line to make the library bigger 
-// - form component with objects as props or states
