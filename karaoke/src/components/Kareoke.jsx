@@ -24,17 +24,9 @@ const Kareoke = () => {
       setToggle(false);
       setChecked(false);
     
-      //assign the target value from the drop down as our selected song
+      //assign the target value from the drop down as our selected song and update state
       const selectedSongId = parseInt(event.target.value);
-      console.log(selectedSongId)
-    
-      //loop through our song list and find a song title that matches our selection
-      //if it is found, set the song state
-      for (let song in songs) {
-        if (songs[song].id === selectedSongId) {
-          setSongState(songs[selectedSongId])
-        }
-      }
+      setSongState(songs[selectedSongId]);  
     }
   
   const checkGuess = (event) => {
