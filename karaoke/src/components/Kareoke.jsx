@@ -25,13 +25,13 @@ const Kareoke = () => {
       setChecked(false);
     
       //assign the target value from the drop down as our selected song
-      const selectedSongId = event.target.value;
+      const selectedSongId = parseInt(event.target.value);
       console.log(selectedSongId)
     
       //loop through our song list and find a song title that matches our selection
       //if it is found, set the song state
       for (let song in songs) {
-        if (songs[song].id == selectedSongId) {
+        if (songs[song].id === selectedSongId) {
           setSongState(songs[selectedSongId])
         }
       }
@@ -57,7 +57,7 @@ const Kareoke = () => {
 
   return (
     <>
-      < h1>Holiday Kareoke</h1>
+      <h1>Holiday Kareoke</h1>
 
       {/* Kareoke selector */}
       <SongSelector 
