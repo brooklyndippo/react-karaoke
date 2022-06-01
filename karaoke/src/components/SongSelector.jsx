@@ -2,13 +2,18 @@ import React from 'react';
 import songs from './Songs'
 
 function SongSelector(props) {
-  const {handleChange} = props
+  const {songState, handleChange} = props
 
   return (
     <div>
         <select className="form-control mt-4" onChange={handleChange}>
         {songs.map(song => (
-          <option key={song.id} value={song.id}>
+         song.id === songState.id ? 
+            <option key={song.id} value={song.id} selected>
+              {song.songTitle}
+            </option>
+          : 
+            <option key={song.id} value={song.id}>
             {song.songTitle}
           </option>
         ))}

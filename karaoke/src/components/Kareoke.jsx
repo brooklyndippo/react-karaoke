@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Video from "./Video"
 import GuessForm from "./GuessForm"
 import SongSelector from "./SongSelector";
@@ -11,7 +11,9 @@ const Kareoke = () => {
   //first thing in array is always current state
   //second thing is function that allows you to update current state
   const [guess, setGuess] = useState('')
-  const [songState, setSongState] = useState(songs[0])
+  const [songState, setSongState] = useState(
+    songs[window.localStorage.getItem('song')] || songs[0]
+    )
   const [result, setResult] = useState('')
   const [toggle, setToggle] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -46,6 +48,11 @@ const Kareoke = () => {
     firstLine="false"
     /> : null
 
+  //useEffect 
+
+  useEffect(() => {
+    window.localStorage.setItem('song', songState.id)
+  })
 
   return (
     <>
@@ -53,6 +60,7 @@ const Kareoke = () => {
 
       {/* Kareoke selector */}
       <SongSelector 
+      songState={songState} 
       handleChange={handleChange}
       />
 
