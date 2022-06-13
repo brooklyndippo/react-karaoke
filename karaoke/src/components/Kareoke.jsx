@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Video from "./Video"
 import GuessForm from "./GuessForm"
 import SongSelector from "./SongSelector";
-import Results from "./Results";
+//import Results from "./Results";
 import songs from "./Songs.jsx";
 import './Kareoke.css'
 
@@ -13,45 +13,76 @@ const Kareoke = () => {
   const [guess, setGuess] = useState('')
   const [songState, setSongState] = useState(
     songs[window.localStorage.getItem('song')] || songs[0]
-    )
-  const [result, setResult] = useState('')
-  const [toggle, setToggle] = useState(false);
-  const [checked, setChecked] = useState(false);
+  )
+
+
+  //get the result 
+  function getResult(event) {
+    //if (event) {
+      //event.preventDefault();
+      if (guess.toLowerCase() === songState.nextLine.toLowerCase()) {
+        console.log('CORRECT')
+        return "Correct!";
+      } else if (guess.length > 1) {
+        console.log(' Submit - INCORRECT')
+        console.log(songState.nextLine.toLowerCase())
+        return "Incorrect";
+      } else {
+        return ''
+      }
+      // } else {
+      // return "RESULT GOES HERE"
+    };
+
+  //get checked
+  function getChecked() {
+    const checkbox = document.getElementById('toggle-checkbox');
+    if (checkbox === null) {
+      return false;
+    } else {
+      return checkbox.checked
+    }
+  }
+
+
+  const result = getResult();
+  let checked = getChecked() || false;
+  let toggle = getToggle(checked);
+
+  //get the toggle 
+  function getToggle(checked) {
+    if (checked === true) {
+      console.log('TOGGLE ON')
+      return true;
+    } else {
+      console.log ('TOGGLE OFF')
+      return false;
+    }
+  };
+
   
 
   const handleChange = (event) => {
-      //reset the guess, answerbox, and show result when switching songs
-      setResult('');
       setGuess('');
-      setToggle(false);
-      setChecked(false);
-    
-      //assign the target value from the drop down as our selected song and update state
       const selectedSongId = parseInt(event.target.value);
       setSongState(songs[selectedSongId]);  
     }
   
-  const checkGuess = (event) => {
-    event.preventDefault()
-    
-    //if the guess state matches the stored value for the next line in the current song state, set result case to correct!
-    if (guess.toLowerCase() === songState.nextLine.toLowerCase()) {
-      setResult("Correct!");
-    } else {
-      setResult("Incorrect");
-    }
-  };
 
   //create a display that only shows if the box is checked
-  const toggleDisplay = toggle ? <Video 
-    song={songState} 
-    firstLine="false"
-    /> : null
 
+  const toggleDisplay = React.useMemo(() => {return getToggle(checked) ? 
+  <Video 
+  song={songState} 
+  firstLine="false"
+  /> : null}, [checked, songState])
+  
+ console.log(toggleDisplay)
   //useEffect 
 
   useEffect(() => {
-    window.localStorage.setItem('song', songState.id)
+    window.localStorage.setItem('song', songState.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   })
 
   return (
@@ -72,23 +103,44 @@ const Kareoke = () => {
 
       {/* Guessing box */}
       <GuessForm 
-      checkGuess={checkGuess} 
+      checkGuess={getResult} 
       guess={guess} 
       setGuess={setGuess}
       />
 
 
       {/* Results */}
-      <Results
+      {/* <Results
       result={result}
       checked={checked}
       toggle={toggle}
       setChecked={setChecked}
       setToggle={setToggle}
+      /> */}
+      <section id="results">
+      <p id="result">{result}</p>
+
+      <section className="custom-control custom-switch">
+      <input
+        type="checkbox"
+        className="custom-control-input"
+        id="toggle-checkbox"
+        onChange={() => {
+          checked = getChecked()
+          toggle = getToggle(checked)
+        }
+        }
       />
+      <label className="custom-control-label" htmlFor="toggle-checkbox">
+        Show me the lyrics!
+      </label>
+
+    </section>
+    </section>
 
       {/* Music Video Answer */}
-      {toggleDisplay}
+
+      { toggleDisplay }
 
     </>  
   );
