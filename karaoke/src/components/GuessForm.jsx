@@ -1,7 +1,7 @@
 import React from 'react';
 
 function GuessForm(props) {
-  const {checkGuess, guess, setGuess} = props
+  const {checkGuess, appState, setAppState} = props
 
   return (
   <form onSubmit={checkGuess}>
@@ -12,8 +12,11 @@ function GuessForm(props) {
       name="guess"
       type="text"
       className="form-control"
-      value={guess}
-      onChange={(e) => setGuess(e.target.value)}
+      value={appState.guess}
+      onChange={(e) => setAppState({
+        ...appState, 
+        guess: e.target.value})
+      }
     ></input>
   </section>
   <button

@@ -1,22 +1,24 @@
 import React from 'react';
-import songs from './Songs'
 
 function Results(props) {
-  const {result, checked, toggle, setChecked, setToggle} = props
+  const {appState, setAppState} = props
 
   return (
     <section id="results">
-    <p id="result">{result}</p>
+    <p id="result">{appState.result}</p>
 
     <section className="custom-control custom-switch">
       <input
         type="checkbox"
         className="custom-control-input"
         id="customSwitch1"
-        checked = {checked}
+        checked = {appState.checked}
         onChange={(e) => {
-          setChecked(e.target.checked);
-          setToggle(!toggle);
+          setAppState({
+            ...appState,
+            checked: e.target.checked,
+            toggle: !appState.toggle
+          });
         }
         }
 
