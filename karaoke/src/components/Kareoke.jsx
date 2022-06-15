@@ -13,11 +13,11 @@ const Kareoke = () => {
   const [appState, setAppState] = useState({
     guess: '',
     song: songs[window.localStorage.getItem('song')] || songs[0], 
-    result: '',
-    toggle: false,
+    result: null, // Result could be a Boolean and Results handles the different strings
+    toggle: false, // Rename for something that is more connected with the UI functionality
     checked: false
-  })
-  
+  });
+
 
   const handleChange = (event) => {
       //reset the guess, answerbox, and show result when switching songs

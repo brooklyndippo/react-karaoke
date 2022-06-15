@@ -2,17 +2,18 @@ import React from 'react';
 
 function Results(props) {
   const {appState, setAppState} = props
+  const { guess, song, result, toggle, checked } = appState;
 
   return (
     <section id="results">
-    <p id="result">{appState.result}</p>
+    <p id="result">{result}</p>
 
     <section className="custom-control custom-switch">
       <input
         type="checkbox"
         className="custom-control-input"
         id="customSwitch1"
-        checked = {appState.checked}
+        checked = {checked}
         onChange={(e) => {
           setAppState({
             ...appState,
