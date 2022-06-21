@@ -1,34 +1,11 @@
-import React from 'react';
-import songs from './Songs'
+import React from "react";
 
-function Results(props) {
-  const {result, checked, toggle, setChecked, setToggle} = props
-
+function Results({ result }) {
   return (
     <section id="results">
-    <p id="result">{result}</p>
-
-    <section className="custom-control custom-switch">
-      <input
-        type="checkbox"
-        className="custom-control-input"
-        id="customSwitch1"
-        checked = {checked}
-        onChange={(e) => {
-          setChecked(e.target.checked);
-          setToggle(!toggle);
-        }
-        }
-
-      />
-      <label className="custom-control-label" htmlFor="customSwitch1">
-        Show me the lyrics!
-      </label>
+      <p id="result">{result}</p>
     </section>
-  </section>
-  )
-
+  );
 }
-
 
 export default Results;
