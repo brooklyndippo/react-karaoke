@@ -1,19 +1,15 @@
 import React from "react";
 
-function ShowLyrics({ appState, setAppState}) {
+function ShowLyrics({ checked, handleShowLyricsToggle}) {
   return (
     <section className="custom-control custom-switch">
       <input
         type="checkbox"
         className="custom-control-input"
         id="customSwitch1"
-        checked={appState.checked}
+        checked={checked}
         onChange={(e) => {
-          setAppState({
-            ...appState,
-            checked: e.target.checked,
-            toggle: !appState.toggle,
-          });
+          handleShowLyricsToggle(e.target.checked)
         }}
       />
       <label className="custom-control-label" htmlFor="customSwitch1">
